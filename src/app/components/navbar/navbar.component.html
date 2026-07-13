@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top app-navbar" [class.app-navbar--scrolled]="isScrolled()">
   <div class="container">
-    <a class="navbar-brand app-navbar__brand" href="#home" (click)="closeMenu()">
+    <a class="navbar-brand app-navbar__brand" role="button" (click)="scrollToSection('home')">
       <img class="app-navbar__logo" [src]="APP_Logo.title_logo" alt="App title logo" />
     </a>
 
@@ -20,8 +20,8 @@
           <a
             class="nav-link app-navbar__link"
             [class.active]="isActive(link.fragment)"
-            [href]="'#' + link.fragment"
-            (click)="closeMenu()"
+            role="button"
+            (click)="scrollToSection(link.fragment)"
           >
             {{ link.label }}
           </a>

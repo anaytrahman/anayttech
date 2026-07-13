@@ -4,5 +4,5 @@ export const APP_FILES = {
 
 export const APP_Logo = {
   logo: './../../assets/logos/logo.png',
-  title_logo: './../../assets/logos/title-logo.png',
+  title_logo: './../../assets/logos/tech-title-logo.png',
 };

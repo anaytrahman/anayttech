@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, signal } from "@angular/core";
+import { Router } from "@angular/router";
 import { SOCIAL_LINKS } from "../../shared/data/portfolio-data";
 import { APP_FILES } from "../../shared/constants/constants";
 import { FileDownloadService } from "../../shared/services/file-download.service";
@@ -26,9 +27,21 @@ export class HeroComponent implements OnInit, OnDestroy {
   private charIndex = 0;
   private isDeleting = false;
   private timeoutId?: ReturnType<typeof setTimeout>;
-  constructor(private _fileDownloadService: FileDownloadService) {}
+  constructor(
+    private _fileDownloadService: FileDownloadService,
+    private _router: Router,
+  ) {}
   ngOnInit(): void {
     this.type();
+  }
+
+  scrollToSection(fragment: string): void {
+    this._router.navigate([`/${fragment}`]);
+
+    const element = document.getElementById(fragment);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   ngOnDestroy(): void {

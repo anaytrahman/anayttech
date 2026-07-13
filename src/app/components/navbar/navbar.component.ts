@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, HostListener, OnInit, signal } from "@angular/core";
+import { Router } from "@angular/router";
 import { ScrollSpyService } from "../../shared/services/scroll-spy.service";
 import { NAV_LINKS } from "../../shared/data/portfolio-data";
 import { APP_FILES } from "../../shared/constants/constants";
@@ -20,9 +21,11 @@ public APP_Logo = APP_Logo;
   constructor(
     public scrollSpy: ScrollSpyService,
     private _fileDownloadService: FileDownloadService,
+    private _router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.clearHash();
     this.scrollSpy.observeSections(this.navLinks.map((link) => link.fragment));
   }
 
@@ -37,6 +40,23 @@ public APP_Logo = APP_Logo;
 
   closeMenu(): void {
     this.isMenuOpen.set(false);
+  }
+
+  scrollToSection(fragment: string): void {
+    this.closeMenu();
+    this.clearHash();
+    this._router.navigate([`/${fragment}`]);
+
+    const element = document.getElementById(fragment);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  private clearHash(): void {
+    if (window.location.hash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
   }
 
   isActive(fragment: string): boolean {

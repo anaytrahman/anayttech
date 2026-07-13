@@ -5,13 +5,14 @@
   position: relative;
   background: $color-bg;
   border-top: 1px solid $color-border;
-  padding: $space-xl 0 $space-md;
+    padding: 1rem 0 1.5rem;
 
   &__brand {
     font-family: $font-heading;
     font-weight: 800;
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
+        width: 120px;
   }
 
   &__tagline {
