@@ -7,6 +7,10 @@ export class ScrollSpyService {
 
   private observer?: IntersectionObserver;
 
+  setActiveSection(section: string): void {
+    this.activeSection.set(section || 'home');
+  }
+
   observeSections(sectionIds: string[]): void {
     this.observer?.disconnect();
 

@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, HostListener, OnInit, signal } from "@angular/core";
-import { Router } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 import { ScrollSpyService } from "../../shared/services/scroll-spy.service";
 import { NAV_LINKS } from "../../shared/data/portfolio-data";
 import { APP_FILES } from "../../shared/constants/constants";
@@ -22,10 +22,17 @@ public APP_Logo = APP_Logo;
     public scrollSpy: ScrollSpyService,
     private _fileDownloadService: FileDownloadService,
     private _router: Router,
-  ) {}
+  ) {
+    this._router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.syncActiveSectionFromRoute();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.clearHash();
+    this.syncActiveSectionFromRoute();
     this.scrollSpy.observeSections(this.navLinks.map((link) => link.fragment));
   }
 
@@ -45,6 +52,7 @@ public APP_Logo = APP_Logo;
   scrollToSection(fragment: string): void {
     this.closeMenu();
     this.clearHash();
+    this.scrollSpy.setActiveSection(fragment);
     this._router.navigate([`/${fragment}`]);
 
     const element = document.getElementById(fragment);
@@ -57,6 +65,11 @@ public APP_Logo = APP_Logo;
     if (window.location.hash) {
       window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
     }
+  }
+
+  private syncActiveSectionFromRoute(): void {
+    const path = this._router.url.split('/').filter(Boolean)[0] || 'home';
+    this.scrollSpy.setActiveSection(path);
   }
 
   isActive(fragment: string): boolean {
